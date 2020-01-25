@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta content="text/html; charset=utf-8" http-equiv="Content-Type" />
+    <title>UPOPET</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <style type="text/css">
+        .oculta {
+            display: none !important;
+        }
+        /* .container {
+            border-radius: 30px;
+        } */
+        
+        h1 {
+            /* color: rgb(255, 69, 92); */
+            letter-spacing: 0.5em;
+        }
+        
+        .btn {
+            /* border-radius: 30px; */
+            background-color: rgb(1, 188, 181);
+            color: white;
+        }
+        
+        .btn:hover {
+            background-color: rgb(62, 211, 206);
+            color: white;
+            transition: background-color;
+        }
+        
+        .volver {
+            background-color: rgb(255, 69, 92);
+        }
+        
+        .volver:hover {
+            background-color: rgb(253, 135, 149);
+        }
+        
+        .aceptar {
+            background-color: rgb(37, 179, 44);
+        }
+        
+        .aceptar:hover {
+            background-color: rgb(142, 221, 146);
+        }
+        
+        body {
+            background-color: rgb(0, 168, 171);
+        }
+        
+        table {
+            background-color: rgb(62, 211, 206);
+        }
+        
+        .jumbotron {
+            border-radius: 0;
+        }
+    </style>
+</head>
+
+<body class="mx-0" onload="inicio();">
+    <!--función que se ejecuta al cargar el body -->
+    <div class="container jumbotron bg-dark text-light text-center py-3 mt-5">
+        <img class="pb-2" src="otroLogo3.png" width="110" height="105" alt="UPOPET">
+        <h1>UPOPET</h1>
+    </div>
+    <div class="container shadow-lg bg-light mx-auto my-5">
+        <div class="row justify-content-center py-3">
+            <div class="col-auto" id="menu">
+                <div class="btn-group mx-auto" role="group">
+                    <button class="btn" type="button" onclick="mostrarAltas()">ALTAS</button>
+                    <button class="btn" type="button" onclick="mostrarActualizar()">ACTUALIZAR</button>
+                    <button class="btn" type="button" onclick="mostrarBusqueda()">BÚSQUEDA</button>
+                    <button class="btn" type="button" onclick="mostrarListados()">LISTADOS</button>
+                </div>
+            </div>
+            <div class="col-auto" id="altas">
+                <div class="btn-group" role="group">
+                    <button class="btn" type="button" onclick="mostrarAltaCliente()">ALTA CLIENTE</button>
+                    <button class="btn" type="button" onclick="mostrarAltaVeterinario()">ALTA VETERINARIO</button>
+                    <button class="btn" type="button" onclick="mostrarAltaMascota()">ALTA MASCOTA</button>
+                    <button class="btn" type="button" onclick="mostrarAltaCita()">ALTA CITA</button>
+                </div>
+            </div>
+            <div class="col-auto" id="actualizar">
+                <div class="btn-group" role="group">
+                    <button class="btn" type="button" onclick="mostrarActualizarCliente()">ACTUALIZAR CLIENTE</button>
+                    <button class="btn" type="button" onclick="mostrarActualizarVeterinario()">ACTUALIZAR VETERINARIO</button>
+                    <button class="btn" type="button" onclick="mostrarActualizarMascota()">ACTUALIZAR MASCOTA</button>
+                    <button class="btn" type="button" onclick="mostrarActualizarCita()">ACTUALIZAR CITA</button>
+                </div>
+            </div>
+            <div class="col-auto" id="busqueda">
+                <form name="form1" onsubmit="buscar();return false">
+                    <div class="row">
+                        <label class="col-4 col-form-label"><b>Búsqueda:</b></label>
+                        <div class="col-9">
+                            <input name="numCliente" id="campoBusqueda" placeholder="Introduzca un DNI/NºColegiado/NºChip/NºCita" type="text" class="form-control" required>
+                        </div>
+                        <button name="enter" type="button" class="btn col-3" onclick="buscar()">Buscar</button>
+                        <div class="col-12 pt-2">
+                            <div class="form-check-inline">
+                                <label class="form-check-label">
+                              <input type="radio" class="form-check-input" name="optradio" id="radioClientes" checked>Clientes
+                            </label>
+                            </div>
+                            <div class="form-check-inline">
+                                <label class="form-check-label">
+                              <input type="radio" class="form-check-input" name="optradio" id="radioVeterinarios">Veterinarios
+                            </label>
+                            </div>
+                            <div class="form-check-inline">
+                                <label class="form-check-label">
+                              <input type="radio" class="form-check-input" name="optradio" id="radioMascotas">Mascotas
+                            </label>
+                            </div>
+                            <div class="form-check-inline">
+                                <label class="form-check-label">
+                              <input type="radio" class="form-check-input" name="optradio" id="radioCitas">Citas
+                            </label>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-auto" id="listados">
+                <div class="btn-group" role="group">
+                    <button class="btn" type="button" onclick="tablaClientes()">LISTADO DE CLIENTES</button>
+                    <button class="btn" type="button" onclick="tablaVeterinarios()">LISTADO DE VETERINARIOS</button>
+                    <button class="btn" type="button" onclick="tablaMascotas()">LISTADO DE MASCOTAS</button>
+                    <button class="btn" type="button" onclick="tablaCitas()">LISTADO DE CITAS</button>
+                </div>
+            </div>
+            <form name="form2" id="form2" class="col-7 mt-4" onsubmit="actualizar();return false">
+                <div class="row">
+                    <label for="numCliente" class="col-4 col-form-label"><b>Actualizar:</b></label>
+                    <div class="col-9">
+                        <select class="form-control" name="comboBox" id="comboBox"></select>
+                    </div>
+                    <button name="enter" type="button" class="btn col-3" onclick="actualizar()">Actualizar</button>
+                </div>
+            </form>
+        </div>
+        <p id="texto" class="text-center font-weight-bold py-3"></p>
+        <div class="row">
+            <div class="col-12">
+                <form name="form" onsubmit="enviar();return false" class="w-75 mx-auto">
+                    <div class="form-group row oculta" id="DNI">
+                        <label for="DNI" class="col-4 col-form-label">DNI</label>
+                        <div class="col-8">
+                            <input name="DNI" id="DNI1" type="text" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-group row oculta" id="numCliente">
+                        <label for="numCliente" class="col-4 col-form-label">Número de Cliente</label>
+                        <div class="col-8">
+                            <input name="numCliente" id="numCliente1" type="text" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-group row oculta" id="numCita">
+                        <label for="numCita" class="col-4 col-form-label">Número de Cita</label>
+                        <div class="col-8">
+                            <input name="numCita" id="numCita1" type="text" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-group row oculta" id="numColegiado">
+                        <label for="numColegiado" class="col-4 col-form-label">Número de Colegiado</label>
+                        <div class="col-8">
+                            <input name="numColegiado" id="numColegiado1" type="text" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-group row oculta" id="numChip">
+                        <label for="numChip" class="col-4 col-form-label">Número de Chip</label>
+                        <div class="col-8">
+                            <input name="numChip" id="numChip1" type="text" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-group row oculta" id="nombre">
+                        <label for="nombre" class="col-4 col-form-label">Nombre</label>
+                        <div class="col-8">
+                            <input name="nombre" type="text" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-group row oculta" id="apellidos">
+                        <label for="apellidos" class="col-4 col-form-label">Apellidos</label>
+                        <div class="col-8">
+                            <input name="apellidos" type="text" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-group row oculta" id="telefono">
+                        <label for="text" class="col-4 col-form-label">Teléfono</label>
+                        <div class="col-8">
+                            <input name="telefono" type="text" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-group row oculta" id="especialidad">
+                        <label for="especialidad" class="col-4 col-form-label">Especialidad</label>
+                        <div class="col-8">
+                            <input name="especialidad" type="text" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-group row oculta" id="nomina">
+                        <label for="nomina" class="col-4 col-form-label">Nómina</label>
+                        <div class="col-8">
+                            <input name="nomina" type="text" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-group row oculta" id="especie">
+                        <label for="especie" class="col-4 col-form-label">Especie</label>
+                        <div class="col-8">
+                            <input name="especie" type="text" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-group row oculta" id="raza">
+                        <label for="raza" class="col-4 col-form-label">Raza</label>
+                        <div class="col-8">
+                            <input name="raza" type="text" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-group row oculta" id="descripcion">
+                        <label for="descripcion" class="col-4 col-form-label">Descripción</label>
+                        <div class="col-8">
+                            <input name="descripcion" type="text" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-group row oculta" id="sexo">
+                        <label for="sexo" class="col-4 col-form-label">Sexo</label>
+                        <div class="col-8">
+                            <input name="sexo" type="text" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-group row oculta" id="fechaCita">
+                        <label for="fechaCita" class="col-4 col-form-label">Fecha Cita</label>
+                        <div class="col-8">
+                            <input name="fechaCita" type="date" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-group row oculta" id="estado">
+                        <label for="estado" class="col-4 col-form-label">Estado</label>
+                        <div class="col-8">
+                            <input name="estado" type="text" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="form-group row oculta" id="pruebas">
+                        <label for="pruebas" class="col-4 col-form-label">Pruebas</label>
+                        <div class="col-8">
+                            <input name="pruebas" type="text" class="form-control" required>
+                        </div>
+                    </div>
+
+                    <table class='table text-center mx-auto table-striped table-hover shadow-lg mb-5' id="tabla"></table>
+                    <div class="form-group row">
+                        <div class="col d-flex">
+                            <button name="enter" type="submit" id="aceptar" class="btn aceptar w-25 mt-5">Aceptar</button>
+                            <button onclick="hacerActualizacion()" id="aceptar2" class="btn aceptar w-25 mt-5">Aceptar</button>
+                            <button name="enter" type="button" id="volver" class="btn ml-auto volver w-25 mt-5" onclick="mostrarMenu()">Volver</button>
+                        </div>
+                    </div>
+                </form>
+                <div class="container-fluid px-0 mb-4 text-center" id="imagenMenu">
+                    <img class="" height="250" src="Siluetas.png" alt="pieDePágina">
+                </div>
+
+                <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+                <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+                <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+                <script type="text/javascript" src="objetos.js"></script>
+                <script type="text/javascript" src="principal.js"></script>
+            </div>
+            <!-- <details class="text-center text-light mt-3">
+        <summary><b>UPOPET</b></summary>
+        <p> - José Luis Guerra Díaz.</p>
+        <p> - Álvaro Álvarez Gago.</p>
+        <p> - Manuel González Narváez.</p>
+    </details> -->
+</body>
+
+</html>
