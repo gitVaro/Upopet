@@ -158,6 +158,8 @@ function actualizaCombo() {
 }
 
 function actualizaCliente() {
+    limpiaCampos();
+    ocultaMenus(["T-form2"]);
     let clientes = clinica.getClientes();
     let select = document.getElementById("comboBox");
     clientes.forEach((cliente) => {
@@ -169,6 +171,8 @@ function actualizaCliente() {
 }
 
 function actualizaVeterinario() {
+    limpiaCampos();
+    ocultaMenus(["T-form2"]);
     let veterinarios = clinica.getVeterinarios();
     let select = document.getElementById("comboBox");
     veterinarios.forEach((veterinario) => {
@@ -180,6 +184,8 @@ function actualizaVeterinario() {
 }
 
 function actualizaMascota() {
+    limpiaCampos();
+    ocultaMenus(["T-form2"]);
     let mascotas = clinica.getMascotas();
     let select = document.getElementById("comboBox");
     mascotas.forEach((mascota) => {
@@ -191,8 +197,11 @@ function actualizaMascota() {
 }
 
 function actualizaCita() {
+    limpiaCampos();
+    ocultaMenus(["T-form2"]);
     let citas = clinica.getCitas();
     let select = document.getElementById("comboBox");
+    limpiaCampos();
     citas.forEach((cita) => {
         let option = document.createElement("option");
         option.innerHTML = cita.numCita + " - " + cita.fechaCita;
