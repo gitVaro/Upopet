@@ -54,7 +54,7 @@ class Mascota {
 
     toHTMLRow() {
         let fila = "";
-        fila += "<tr><td>" + this.numCliente + "</td><td>" + this.numChip + "</td><td>" + this.nombre + "</td><td>" + this.especie + "</td><td>" + this.raza + "</td><td>" + this.descripcion + "</td><td>" + this.sexo + "</td></tr>";
+        fila += "<tr><td>" + this.numChip + "</td><td>" + this.numCliente + "</td><td>" + this.nombre + "</td><td>" + this.especie + "</td><td>" + this.raza + "</td><td>" + this.descripcion + "</td><td>" + this.sexo + "</td></tr>";
         return fila;
     }
 }
@@ -131,6 +131,9 @@ class Clinica {
             texto = "El número de cliente ya está registrado";
         else {
             this.personas.push(oCliente);
+            this.personas.sort(function(v1, v2) {
+                return parseInt(v1.DNI) - parseInt(v2.DNI);
+            });
             texto = "Cliente registrado";
         }
         return texto;
@@ -145,6 +148,9 @@ class Clinica {
             texto = "El número de colegiado ya está registrado";
         else {
             this.personas.push(oVeterinario);
+            this.personas.sort(function(v1, v2) {
+                return parseInt(v1.DNI) - parseInt(v2.DNI);
+            });
             texto = "Veterinario registrado";
         }
         return texto;
@@ -157,6 +163,9 @@ class Clinica {
             texto = "El número de cliente no está registrado";
         else {
             this.mascotas.push(oMascota);
+            this.mascotas.sort(function(v1, v2) {
+                return parseInt(v1.numChip) - parseInt(v2.numChip);
+            });
             texto = "Mascota registrada";
         }
         return texto;
@@ -173,6 +182,9 @@ class Clinica {
             texto = "La cita ya existe";
         else {
             this.citas.push(oCita);
+            this.personas.sort(function(v1, v2) {
+                return parseInt(v1.numCita) - parseInt(v2.numCita);
+            });
             texto = "Cita registrada";
         }
         return texto;
@@ -238,6 +250,17 @@ class Clinica {
         return personaADevolver;
     }
 
+    buscarNumeroCliente(numCliente) {
+        let personaADevolver = "";
+        this.personas.forEach((persona) => {
+            if (persona.constructor.name == "Cliente" && persona.numCliente == numCliente) {
+                personaADevolver = persona;
+                return personaADevolver;
+            }
+        })
+        return personaADevolver;
+    }
+
     buscarNumeroColegiado(numColegiado) {
         let personaADevolver = "";
         this.personas.forEach((persona) => {
@@ -294,7 +317,7 @@ class Clinica {
 
     buscarClientesExistentes(id) {
         let tabla = "<thead class='thead-dark'><tr><th colspan='5' style='text-align: center;'>CLIENTE</th></tr></thead><thead class='thead-light'><tr><th>DNI</th><th>Nº Cliente</th><th>Nombre</th><th>Apellidos</th><th>Teléfono</th></tr></thead>";
-        let personaADevolver = this.buscarDNICliente(id);
+        let personaADevolver = this.buscarNumeroCliente(id);
         let cliente = new Cliente(personaADevolver.DNI, personaADevolver.numCliente, personaADevolver.nombre, personaADevolver.apellidos, personaADevolver.telefono);
         tabla += cliente.toHTMLRow();
         return tabla;
@@ -309,7 +332,7 @@ class Clinica {
     }
 
     buscarMascotasExistentes(id) {
-        let tabla = "<thead class='thead-dark'><tr><th colspan='7' style='text-align: center;'>MASCOTA</th></tr></thead><thead class='thead-light'><tr><th>Nº Cliente</th><th>Nº Chip</th><th>Nombre</th><th>Especie</th><th>Raza</th><th>Descripción</th><th>Sexo</th></tr></thead>";
+        let tabla = "<thead class='thead-dark'><tr><th colspan='7' style='text-align: center;'>MASCOTA</th></tr></thead><thead class='thead-light'><tr><th>Nº Chip</th><th>Nº Cliente</th><th>Nombre</th><th>Especie</th><th>Raza</th><th>Descripción</th><th>Sexo</th></tr></thead>";
         let mascotaADevolver = this.buscarNumeroChip(id);
         let animal = new Mascota(mascotaADevolver.numCliente, mascotaADevolver.numChip, mascotaADevolver.nombre, mascotaADevolver.especie, mascotaADevolver.raza, mascotaADevolver.descripcion, mascotaADevolver.sexo);
         tabla += animal.toHTMLRow();
@@ -357,6 +380,11 @@ class Clinica {
         this.personas.splice(this.personas.indexOf(antiguoCliente), 1);
         this.personas.push(oCliente);
 
+
+        this.personas.sort(function(v1, v2) {
+            return parseInt(v1.DNI) - parseInt(v2.DNI);
+        });
+
         return "Actualizado correctamente";
     }
 
@@ -364,6 +392,10 @@ class Clinica {
         let antiguoVetetinario = this.buscarNumeroColegiado(oVeterinario.numColegiado);
         this.personas.splice(this.personas.indexOf(antiguoVetetinario), 1);
         this.personas.push(oVeterinario);
+
+        this.personas.sort(function(v1, v2) {
+            return parseInt(v1.DNI) - parseInt(v2.DNI);
+        });
 
         return "Actualizado correctamente";
     }
@@ -373,6 +405,10 @@ class Clinica {
         this.mascotas.splice(this.mascotas.indexOf(antiguaMascota), 1);
         this.mascotas.push(oMascota);
 
+        this.mascotas.sort(function(v1, v2) {
+            return parseInt(v1.numChip) - parseInt(v2.numChip);
+        });
+
         return "Actualizado correctamente";
     }
 
@@ -380,6 +416,10 @@ class Clinica {
         let antiguaCita = this.buscarNumeroCita(oCita.numCita);
         this.citas.splice(this.citas.indexOf(antiguaCita), 1);
         this.citas.push(oCita);
+
+        this.citas.sort(function(v1, v2) {
+            return parseInt(v1.numCita) - parseInt(v2.numCita);
+        });
 
         return "Actualizado correctamente";
     }
@@ -407,7 +447,7 @@ class Clinica {
     }
 
     listadoMascotas() {
-        let tabla = "<thead class='thead-dark'><tr><th colspan='7' style='text-align: center;'>MASCOTAS</th></tr></thead><thead class='thead-light'><tr><th>Nº Cliente</th><th>Nº Chip</th><th>Nombre</th><th>Especie</th><th>Raza</th><th>Descripción</th><th>Sexo</th></tr></thead>";
+        let tabla = "<thead class='thead-dark'><tr><th colspan='7' style='text-align: center;'>MASCOTAS</th></tr></thead><thead class='thead-light'><tr><th>Nº Chip</th><th>Nº Cliente</th><th>Nombre</th><th>Especie</th><th>Raza</th><th>Descripción</th><th>Sexo</th></tr></thead>";
         this.mascotas.forEach((mascota) => {
             if (this.buscarMascota(mascota.numChip)) {
                 let animal = new Mascota(mascota.numCliente, mascota.numChip, mascota.nombre, mascota.especie, mascota.raza, mascota.descripcion, mascota.sexo);

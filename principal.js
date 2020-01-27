@@ -15,7 +15,7 @@ function mensaje(texto) {
     document.getElementById("texto").classList.remove("text-danger");
     document.getElementById("texto").classList.remove("text-success");
 
-    if (texto.includes("ya") || texto.includes("no"))
+    if (texto.includes("ya") || texto.includes("no") || texto.includes("No"))
         document.getElementById("texto").classList.add("text-danger");
     else
         document.getElementById("texto").classList.add("text-success");
@@ -49,6 +49,32 @@ function ocultaCosas(array) {
             document.getElementById(array[i].substring(2)).getElementsByTagName('input')[0].disabled = false;
         }
     }
+}
+
+function limpiaCampos() {
+    form1.numCliente.value = "";
+    for (let i = form2.comboBox.length; i >= 0; i--) {
+        form2.comboBox.remove(i);
+    }
+    form.DNI.value = "";
+    form.numCliente.value = "";
+    form.nombre.value = "";
+    form.apellidos.value = "";
+    form.telefono.value = "";
+    form.numColegiado.value = "";
+    form.especialidad.value = "";
+    form.nomina.value = "";
+    form.numChip.value = "";
+    form.especie.value = "";
+    form.raza.value = "";
+    form.descripcion.value = "";
+    form.sexo.value = "";
+    form.numCita.value = "";
+    form.fechaCita.value = "";
+    form.estado.value = "";
+    form.pruebas.value = "";
+    ocultaCosas(["F-DNI", "F-numCliente", "F-numColegiado", "F-numChip", "F-numCita", "F-nombre", "F-apellidos", "F-telefono", "F-especialidad", "F-nomina", "F-especie", "F-fechaCita", "F-raza", "F-descripcion", "F-sexo", "F-estado", "F-pruebas"]);
+    ocultaMenus(["F-aceptar", "F-aceptar2", "F-form2"]);
 }
 
 function mostrarMenu() {
@@ -235,7 +261,6 @@ function enviarActualizaCita() {
     document.getElementById('numCita1').disabled = true;
     let cita = clinica.buscarNumeroCita(document.getElementById('comboBox').value);
     let nuevafecha = cita.fechaCita.substring(cita.fechaCita.length - 4, cita.fechaCita.length) + "-" + cita.fechaCita.substring(3, 5) + "-" + cita.fechaCita.substring(0, 2);
-    console.log(nuevafecha);
     form.numCita.value = cita.numCita;
     form.numColegiado.value = cita.numColegiado;
     form.numChip.value = cita.numChip;
@@ -265,6 +290,7 @@ function hacerActualizacionCliente() {
     let cliente = new Cliente(DNI, numCliente, nombre, apellidos, telefono);
     ocultaCosas(["F-DNI", "F-numCliente", "F-numCita", "F-numColegiado", "F-numChip", "F-nombre", "F-apellidos", "F-telefono", "F-especialidad", "F-nomina", "F-especie", "F-fechaCita", "F-raza", "F-descripcion", "F-sexo", "F-estado", "F-pruebas"]);
     ocultaMenus(["F-aceptar2"]);
+    limpiaCampos();
     mensaje(clinica.actualizaCliente(cliente));
 }
 
@@ -280,6 +306,7 @@ function hacerActualizacionVeterinario() {
     let veterinario = new Veterinario(DNI, numColegiado, nombre, apellidos, telefono, especialidad, nomina);
     ocultaCosas(["F-DNI", "F-numCliente", "F-numCita", "F-numColegiado", "F-numChip", "F-nombre", "F-apellidos", "F-telefono", "F-especialidad", "F-nomina", "F-especie", "F-fechaCita", "F-raza", "F-descripcion", "F-sexo", "F-estado", "F-pruebas"]);
     ocultaMenus(["F-aceptar2"]);
+    limpiaCampos();
     mensaje(clinica.actualizaVeterinario(veterinario));
 }
 
@@ -295,6 +322,7 @@ function hacerActualizacionMascota() {
     let mascota = new Mascota(numCliente, numChip, nombre, especie, raza, descripcion, sexo);
     ocultaCosas(["F-DNI", "F-numCliente", "F-numCita", "F-numColegiado", "F-numChip", "F-nombre", "F-apellidos", "F-telefono", "F-especialidad", "F-nomina", "F-especie", "F-fechaCita", "F-raza", "F-descripcion", "F-sexo", "F-estado", "F-pruebas"]);
     ocultaMenus(["F-aceptar2"]);
+    limpiaCampos();
     mensaje(clinica.actualizaMascota(mascota));
 }
 
@@ -309,6 +337,7 @@ function hacerActualizacionCita() {
     let cita = new Cita(numCita, numColegiado, numChip, fechaCita, estado, pruebas);
     ocultaCosas(["F-DNI", "F-numCliente", "F-numCita", "F-numColegiado", "F-numChip", "F-nombre", "F-apellidos", "F-telefono", "F-especialidad", "F-nomina", "F-especie", "F-fechaCita", "F-raza", "F-descripcion", "F-sexo", "F-estado", "F-pruebas"]);
     ocultaMenus(["F-aceptar2"]);
+    limpiaCampos();
     mensaje(clinica.actualizaCita(cita));
 }
 
@@ -325,22 +354,35 @@ function enviar() {
 
 function buscar() {
     let id = form1.numCliente.value;
+    mensaje("");
     if (document.getElementById("radioClientes").checked) {
         document.getElementById("tabla").classList.remove("oculta");
         document.getElementById("tabla").innerHTML = "";
-        document.getElementById("tabla").innerHTML = clinica.buscarClientesExistentes(id);
+        if (clinica.buscarNumCliente(id))
+            document.getElementById("tabla").innerHTML = clinica.buscarClientesExistentes(id);
+        else
+            mensaje("No existen resultados para los valores introducidos");
     } else if (document.getElementById("radioVeterinarios").checked) {
         document.getElementById("tabla").classList.remove("oculta");
         document.getElementById("tabla").innerHTML = "";
-        document.getElementById("tabla").innerHTML = clinica.buscarVeterinariosExistentes(id);
+        if (clinica.buscarColegiado(id))
+            document.getElementById("tabla").innerHTML = clinica.buscarVeterinariosExistentes(id);
+        else
+            mensaje("No existen resultados para los valores introducidos");
     } else if (document.getElementById("radioMascotas").checked) {
         document.getElementById("tabla").classList.remove("oculta");
         document.getElementById("tabla").innerHTML = "";
-        document.getElementById("tabla").innerHTML = clinica.buscarMascotasExistentes(id);
+        if (clinica.buscarMascota(id))
+            document.getElementById("tabla").innerHTML = clinica.buscarMascotasExistentes(id);
+        else
+            mensaje("No existen resultados para los valores introducidos");
     } else if (document.getElementById("radioCitas").checked) {
         document.getElementById("tabla").classList.remove("oculta");
         document.getElementById("tabla").innerHTML = "";
-        document.getElementById("tabla").innerHTML = clinica.buscarCitasExistentes(id);
+        if (clinica.buscarNumCita(id))
+            document.getElementById("tabla").innerHTML = clinica.buscarCitasExistentes(id);
+        else
+            mensaje("No existen resultados para los valores introducidos");
     }
 }
 
@@ -351,6 +393,7 @@ function enviarAltaCliente() {
     let apellidos = form.apellidos.value;
     let telefono = form.telefono.value;
 
+    limpiaCampos();
     let cliente = new Cliente(DNI, numCliente, nombre, apellidos, telefono);
     mensaje(clinica.altaCliente(cliente));
 }
@@ -364,6 +407,7 @@ function enviarAltaVeterinario() {
     let especialidad = form.especialidad.value;
     let nomina = form.nomina.value;
 
+    limpiaCampos();
     let veterinario = new Veterinario(DNI, numColegiado, nombre, apellidos, telefono, especialidad, nomina);
     mensaje(clinica.altaVeterinario(veterinario));
 }
@@ -377,6 +421,7 @@ function enviarAltaMascota() {
     let descripcion = form.descripcion.value;
     let sexo = form.sexo.value;
 
+    limpiaCampos();
     let mascota = new Mascota(numCliente, numChip, nombre, especie, raza, descripcion, sexo);
     mensaje(clinica.altaMascota(mascota));
 }
@@ -389,6 +434,7 @@ function enviarAltaCita() {
     let estado = form.estado.value;
     let pruebas = form.pruebas.value;
 
+    limpiaCampos();
     let cita = new Cita(numCita, numColegiado, numChip, fechaCita, estado, pruebas);
     mensaje(clinica.altaCita(cita));
 }
