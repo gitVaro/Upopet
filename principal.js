@@ -201,7 +201,6 @@ function actualizaCita() {
     ocultaMenus(["T-form2"]);
     let citas = clinica.getCitas();
     let select = document.getElementById("comboBox");
-    limpiaCampos();
     citas.forEach((cita) => {
         let option = document.createElement("option");
         option.innerHTML = cita.numCita + " - " + cita.fechaCita;
