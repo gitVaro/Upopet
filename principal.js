@@ -4,7 +4,7 @@ var clinica = new Clinica();
 var opcion = "";
 
 function inicio() {
-    datosIniciales();
+    cargarDatos();
     mensaje("");
     mostrarMenu();
     document.getElementById("tabla").classList.add("oculta");
@@ -471,32 +471,97 @@ function tablaCitas() {
     document.getElementById("tabla").innerHTML = clinica.listadoCitas();
 }
 
-function datosIniciales() {
-    var cliente = new Cliente("11111111Z", "1", "Lola", "Mento", 123123123);
-    clinica.altaCliente(cliente);
-    var cliente = new Cliente("22222222Z", "2", "Aitor", "Menta", 321321321);
-    clinica.altaCliente(cliente);
-    var cliente = new Cliente("33333333Z", "3", "Juan", "Palomo", 456456456);
-    clinica.altaCliente(cliente);
+function cargarDatos() {
+    // var cliente = new Cliente("11111111Z", "1", "Lola", "Mento", 123123123);
+    // clinica.altaCliente(cliente);
+    // var cliente = new Cliente("22222222Z", "2", "Aitor", "Menta", 321321321);
+    // clinica.altaCliente(cliente);
+    // var cliente = new Cliente("33333333Z", "3", "Juan", "Palomo", 456456456);
+    // clinica.altaCliente(cliente);
 
-    var veterinario = new Veterinario("44444444Z", "1", "Natalia", "Zarzuela", 123123123, "Oftalmologo", 1000);
-    clinica.altaVeterinario(veterinario);
-    var veterinario = new Veterinario("55555555Z", "2", "Maria", "Barriga", 321321321, "Matrona", 1100);
-    clinica.altaVeterinario(veterinario);
-    var veterinario = new Veterinario("66666666Z", "3", "Francisco", "Rajado", 456456456, "Cirujano", 1200);
-    clinica.altaVeterinario(veterinario);
+    // var veterinario = new Veterinario("44444444Z", "1", "Natalia", "Zarzuela", 123123123, "Oftalmologo", 1000);
+    // clinica.altaVeterinario(veterinario);
+    // var veterinario = new Veterinario("55555555Z", "2", "Maria", "Barriga", 321321321, "Matrona", 1100);
+    // clinica.altaVeterinario(veterinario);
+    // var veterinario = new Veterinario("66666666Z", "3", "Francisco", "Rajado", 456456456, "Cirujano", 1200);
+    // clinica.altaVeterinario(veterinario);
 
-    var mascota = new Mascota("1", "1", "Firulais", "Perro", "Pitbull", "Petadisimo", "Macho");
-    clinica.altaMascota(mascota);
-    var mascota = new Mascota("1", "2", "Lara", "Perro", "Chucho", "Blanca con manchas negras", "Hembra");
-    clinica.altaMascota(mascota);
-    var mascota = new Mascota("2", "3", "Rex", "Perro", "Pastor Alemán", "Grande", "Macho");
-    clinica.altaMascota(mascota);
+    // var mascota = new Mascota("1", "1", "Firulais", "Perro", "Pitbull", "Petadisimo", "Macho");
+    // clinica.altaMascota(mascota);
+    // var mascota = new Mascota("1", "2", "Lara", "Perro", "Chucho", "Blanca con manchas negras", "Hembra");
+    // clinica.altaMascota(mascota);
+    // var mascota = new Mascota("2", "3", "Rex", "Perro", "Pastor Alemán", "Grande", "Macho");
+    // clinica.altaMascota(mascota);
 
-    var cita = new Cita("1", "1", "1", "23/11/2016", "Realizada", "Radiografia");
-    clinica.altaCita(cita);
-    cita = new Cita("2", "1", "2", "30/11/2016", "Realizada", "TAC");
-    clinica.altaCita(cita);
-    cita = new Cita("3", "2", "3", "24/11/2019", "Pendiente", "Exploración");
-    clinica.altaCita(cita);
+    // var cita = new Cita("1", "1", "1", "23/11/2016", "Realizada", "Radiografia");
+    // clinica.altaCita(cita);
+    // cita = new Cita("2", "1", "2", "30/11/2016", "Realizada", "TAC");
+    // clinica.altaCita(cita);
+    // cita = new Cita("3", "2", "3", "24/11/2019", "Pendiente", "Exploración");
+    // clinica.altaCita(cita);
+
+    var xhr = new XMLHttpRequest();
+    xhr.onreadystatechange = function() {
+        if (this.readyState == 4 && this.status == 200)
+            cargarXML(this);
+    };
+    xhr.open("GET", "BBDD.xml", true);
+    xhr.send();
+}
+
+function cargarXML(xml) {
+    var docXML = xml.responseXML;
+    var clientes = docXML.getElementsByTagName("cliente");
+    var veterinarios = docXML.getElementsByTagName("veterinario");
+    var mascotas = docXML.getElementsByTagName("mascota");
+    var citas = docXML.getElementsByTagName("cita");
+
+    for (var i = 0; i < clientes.length; i++) {
+        let DNI = clientes[i].getElementsByTagName("DNI")[0].textContent;
+        let numCliente = clientes[i].getElementsByTagName("numCliente")[0].textContent;
+        let nombre = clientes[i].getElementsByTagName("nombre")[0].textContent;
+        let apellidos = clientes[i].getElementsByTagName("apellidos")[0].textContent;
+        let telefono = clientes[i].getElementsByTagName("telefono")[0].textContent;
+
+        let cliente = new Cliente(DNI, numCliente, nombre, apellidos, telefono);
+        clinica.altaCliente(cliente);
+    }
+
+    for (var i = 0; i < veterinarios.length; i++) {
+        let DNI = veterinarios[i].getElementsByTagName("DNI")[0].textContent;
+        let numColegiado = veterinarios[i].getElementsByTagName("numColegiado")[0].textContent;
+        let nombre = veterinarios[i].getElementsByTagName("nombre")[0].textContent;
+        let apellidos = veterinarios[i].getElementsByTagName("apellidos")[0].textContent;
+        let telefono = veterinarios[i].getElementsByTagName("telefono")[0].textContent;
+        let especialidad = veterinarios[i].getElementsByTagName("especialidad")[0].textContent;
+        let nomina = veterinarios[i].getElementsByTagName("nomina")[0].textContent;
+
+        let veterinario = new Veterinario(DNI, numColegiado, nombre, apellidos, telefono, especialidad, nomina);
+        clinica.altaVeterinario(veterinario);
+    }
+
+    for (var i = 0; i < mascotas.length; i++) {
+        let numCliente = mascotas[i].getElementsByTagName("numCliente")[0].textContent;
+        let numChip = mascotas[i].getElementsByTagName("numChip")[0].textContent;
+        let nombre = mascotas[i].getElementsByTagName("nombre")[0].textContent;
+        let especie = mascotas[i].getElementsByTagName("especie")[0].textContent;
+        let raza = mascotas[i].getElementsByTagName("raza")[0].textContent;
+        let descripcion = mascotas[i].getElementsByTagName("descripcion")[0].textContent;
+        let sexo = mascotas[i].getElementsByTagName("sexo")[0].textContent;
+
+        let mascota = new Mascota(numCliente, numChip, nombre, especie, raza, descripcion, sexo);
+        clinica.altaMascota(mascota);
+    }
+
+    for (var i = 0; i < citas.length; i++) {
+        let numCita = citas[i].getElementsByTagName("numCita")[0].textContent;
+        let numColegiado = citas[i].getElementsByTagName("numColegiado")[0].textContent;
+        let numChip = citas[i].getElementsByTagName("numChip")[0].textContent;
+        let fechaCita = citas[i].getElementsByTagName("fechaCita")[0].textContent;
+        let estado = citas[i].getElementsByTagName("estado")[0].textContent;
+        let pruebas = citas[i].getElementsByTagName("pruebas")[0].textContent;
+
+        let cita = new Cita(numCita, numColegiado, numChip, fechaCita, estado, pruebas);
+        clinica.altaCita(cita);
+    }
 }

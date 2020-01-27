@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="UTF-8" standalone="yes" ?>
+<!DOCTYPE baseDatos[
+ <!ELEMENT baseDatos (datos)> 
+ <!ELEMENT datos (clientes, veterinarios, mascotas, citas)>
+ <!ELEMENT clientes (cliente*)>
+ <!ELEMENT cliente (DNI, numCliente, nombre, apellidos, telefono)>
+ <!ELEMENT veterinarios (veterinario*)>
+ <!ELEMENT veterinario (DNI, numColegiado, nombre, apellidos, telefono, especialidad, nomina)>
+ <!ELEMENT mascotas (mascota*)>
+ <!ELEMENT mascota (numCliente, numChip, nombre, especie, raza, descripcion, sexo)>
+ <!ELEMENT citas (cita*)>
+ <!ELEMENT cita (numCita, numColegiado, numChip, fechaCita, estado, pruebas)>
+ <!ELEMENT DNI (#PCDATA)>
+ <!ELEMENT numCliente (#PCDATA)>
+ <!ELEMENT nombre (#PCDATA)>
+ <!ELEMENT apellidos (#PCDATA)>
+ <!ELEMENT telefono (#PCDATA)>
+ <!ELEMENT numColegiado (#PCDATA)>
+ <!ELEMENT especialidad (#PCDATA)>
+ <!ELEMENT nomina (#PCDATA)>
+ <!ELEMENT numChip (#PCDATA)>
+ <!ELEMENT especie (#PCDATA)>
+ <!ELEMENT raza (#PCDATA)>
+ <!ELEMENT descripcion (#PCDATA)>
+ <!ELEMENT sexo (#PCDATA)>
+ <!ELEMENT numCita (#PCDATA)>
+ <!ELEMENT fechaCita (#PCDATA)>
+ <!ELEMENT estado (#PCDATA)>
+ <!ELEMENT pruebas (#PCDATA)>
+]>
+<baseDatos>
+  <datos>
+    <clientes>
+      <cliente>
+        <DNI>111111111A</DNI>
+        <numCliente>1</numCliente>
+        <nombre>Lola</nombre>
+        <apellidos>Mento</apellidos>
+        <telefono>111111111</telefono>
+      </cliente>
+      <cliente>
+        <DNI>222222222B</DNI>
+        <numCliente>2</numCliente>
+        <nombre>Aitor</nombre>
+        <apellidos>Menta</apellidos>
+        <telefono>222222222</telefono>
+      </cliente>
+      <cliente>
+        <DNI>333333333C</DNI>
+        <numCliente>3</numCliente>
+        <nombre>Juan</nombre>
+        <apellidos>Palomo</apellidos>
+        <telefono>333333333</telefono>
+      </cliente>
+    </clientes>
+    <veterinarios>
+      <veterinario>
+        <DNI>444444444D</DNI>
+        <numColegiado>1</numColegiado>
+        <nombre>Natalia</nombre>
+        <apellidos>Zarzuela</apellidos>
+        <telefono>444444444</telefono>
+        <especialidad>Cirujía</especialidad>
+        <nomina>1200</nomina>
+      </veterinario>
+      <veterinario>
+        <DNI>555555555E</DNI>
+        <numColegiado>2</numColegiado>
+        <nombre>Maria</nombre>
+        <apellidos>Barriga</apellidos>
+        <telefono>555555555</telefono>
+        <especialidad>Cardiología</especialidad>
+        <nomina>1000</nomina>
+      </veterinario>
+      <veterinario>
+        <DNI>666666666F</DNI>
+        <numColegiado>3</numColegiado>
+        <nombre>Francisco</nombre>
+        <apellidos>Rajado</apellidos>
+        <telefono>666666666</telefono>
+        <especialidad>Anestesiología</especialidad>
+        <nomina>1100</nomina>
+      </veterinario>
+    </veterinarios>
+    <mascotas>
+      <mascota>
+        <numCliente>1</numCliente>
+        <numChip>1</numChip>
+        <nombre>Firulais</nombre>
+        <especie>Perro</especie>
+        <raza>Pitbull</raza>
+        <descripcion>Negro y sin cola</descripcion>
+        <sexo>Macho</sexo>
+      </mascota>
+      <mascota>
+        <numCliente>1</numCliente>
+        <numChip>2</numChip>
+        <nombre>Gea</nombre>
+        <especie>Perro</especie>
+        <raza>Boxer</raza>
+        <descripcion>Color pardo</descripcion>
+        <sexo>Hembra</sexo>
+      </mascota>
+      <mascota>
+        <numCliente>2</numCliente>
+        <numChip>3</numChip>
+        <nombre>Coco</nombre>
+        <especie>Perro</especie>
+        <raza>Chucho</raza>
+        <descripcion>Blanca con machas marrones</descripcion>
+        <sexo>Hembra</sexo>
+      </mascota>
+    </mascotas>
+    <citas>
+      <cita>
+        <numCita>1</numCita>
+        <numColegiado>1</numColegiado>
+        <numChip>1</numChip>
+        <fechaCita>23/11/2016</fechaCita>
+        <estado>Realizada</estado>
+        <pruebas>Radiografía</pruebas>
+      </cita>
+      <cita>
+        <numCita>2</numCita>
+        <numColegiado>1</numColegiado>
+        <numChip>2</numChip>
+        <fechaCita>30/11/2016</fechaCita>
+        <estado>Realizada</estado>
+        <pruebas>TAC</pruebas>
+      </cita>
+      <cita>
+        <numCita>3</numCita>
+        <numColegiado>2</numColegiado>
+        <numChip>3</numChip>
+        <fechaCita>24/11/2019</fechaCita>
+        <estado>Pendiente</estado>
+        <pruebas>Exploración</pruebas>
+      </cita>
+    </citas>
+  </datos>
+</baseDatos>
